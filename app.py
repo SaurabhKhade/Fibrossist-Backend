@@ -6,8 +6,8 @@ from api.features.log.save import save
 from api.features.validate import validate
 from api.features.detect import detect
 
-from flask import Flask
-app = Flask(__name__)
+from flask import Flask, render_template
+app = Flask(__name__, static_url_path='/static')
 
 app.add_url_rule("/", view_func=home)
 app.add_url_rule("/detect", view_func=detect)
@@ -17,7 +17,7 @@ app.add_url_rule("/signup", view_func=signup)
 app.add_url_rule("/log/save", view_func=save)
 app.add_url_rule("/log/retrieve", view_func=retrieve)
 
-# create template to add for 404
-# @app.errorhandler(404)
-# def not_found(e):
-#     return "404: Not Found"
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('404/404.html')
