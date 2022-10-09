@@ -1,12 +1,21 @@
 def home():
-    return '''
-    <h3>Urls</h3>
-    <ul>
-        <li><a href="/detect">/detect</a></li>
-        <li><a href="/validate">/validate</a></li>
-        <li><a href="/signup">/signup</a></li>
-        <li><a href="/signin">/signin</a></li>
-        <li><a href="/log/retrieve">/log/retrieve</a></li>
-        <li><a href="/log/save">/log/save</a></li>
-    </ul>
-    '''
+    return {
+        'status': 200,
+        'message': 'Welcome to the API',
+        'data': {
+            'routes': [
+                {'url': '/validate', 'method': 'POST',
+                    'description': 'Validates the whether the given is a valid X-Ray or not'},
+                {'url': '/detect', 'method': 'POST',
+                    'description': 'Detects whether the patient has Pulmonary Fibrosis or not'},
+                {'url': '/signin', 'method': 'POST',
+                    'description': 'Signs in the user'},
+                {'url': '/signup', 'method': 'POST',
+                    'description': 'Signs up the user'},
+                {'url': '/log/save', 'method': 'POST',
+                    'description': 'Saves the disease detection log of the user'},
+                {'url': '/log/retrieve', 'method': 'POST',
+                    'description': 'Retrieves the disease detection log of the user'},
+            ]
+        }
+    }, 200

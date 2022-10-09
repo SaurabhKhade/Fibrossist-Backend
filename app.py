@@ -19,5 +19,10 @@ app.add_url_rule("/log/retrieve", view_func=retrieve)
 
 
 @app.errorhandler(404)
-def not_found(e):
-    return render_template('404/404.html')
+def not_found():
+    return {'status': 404, 'message': '404 Not Found'}, 404
+
+
+@app.errorhandler(500)
+def not_found():
+    return {'status': 500, 'message': 'Internal Server Error'}, 500
