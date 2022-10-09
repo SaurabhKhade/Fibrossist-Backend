@@ -1,6 +1,6 @@
 # Follow the instructions for project setup
 
-#### Create a virtual environment
+## Create a virtual environment
 
 For Linux and Mac users:
 
@@ -16,7 +16,7 @@ py -m venv <name>
 
 to create in root directory of the project, use `.` in the place of `<name>`
 
-#### Activate the virtual environment
+## Activate the virtual environment
 
 For Linux and Mac users:
 
@@ -30,7 +30,7 @@ For Windows users:
 .\<name>\Scripts\activate
 ```
 
-#### Installing Dependencies
+## Installing Dependencies
 
 Run command
 
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 
 to install all the dependencies.
 
-#### Starting the Server
+## Starting the Server
 
 Run command
 
@@ -56,11 +56,11 @@ To use different port, use command
 flask --app app --debug --port <port_number> run
 ```
 
-#### Visit Webpage
+## Visit Webpage
 
 Open the browser and go to `http://localhost:5000/`
 
-#### Deactivate the virtual environment
+## Deactivate the virtual environment
 
 To deactivate the virtual environment, run command
 
