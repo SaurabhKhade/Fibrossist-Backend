@@ -1,57 +1,69 @@
-# Follow the procedure for project setup
+# Follow the instructions for project setup
 
-1. **Create a virtual environment**
-   For Linux and Mac users:
+#### Create a virtual environment
 
-   ```bash
-   python3 -m venv <name>
-   ```
+For Linux and Mac users:
 
-   For Windows users:
+```bash
+python3 -m venv <name>
+```
 
-   ```bash
-   py -m venv <name>
-   ```
+For Windows users:
 
-   to create in root directory of the project, use `.` in the place of `<name>`
+```bash
+py -m venv <name>
+```
 
-2. **Activate the virtual environment**
-   For Linux and Mac users:
+to create in root directory of the project, use `.` in the place of `<name>`
 
-   ```bash
-   source <name>/bin/activate
-   ```
+#### Activate the virtual environment
 
-   For Windows users:
+For Linux and Mac users:
 
-   ```bash
-   .\<name>\Scripts\activate
-   ```
+```bash
+source <name>/bin/activate
+```
 
-3. **Run command**
+For Windows users:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+.\<name>\Scripts\activate
+```
 
-   to install all the dependencies.
+#### Installing Dependencies
 
-4. **Run command**
+Run command
 
-   ```bash
-   flask --app app --debug run
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-   It will start flask development server on port 5000.
-   To use different port, use command
+to install all the dependencies.
 
-   ```bash
-    flask --app app --debug --port <port_number> run
-   ```
+#### Starting the Server
 
-5. **Open the browser and go to** `http://localhost:5000/`
+Run command
 
-6. **To deactivate the virtual environment**
-   ```bash
-   deactivate
-   ```
+```bash
+flask --app app --debug run
+```
+
+It will start flask development server on port 5000.
+
+To use different port, use command
+
+```bash
+flask --app app --debug --port <port_number> run
+```
+
+#### Visit Webpage
+
+Open the browser and go to `http://localhost:5000/`
+
+#### Deactivate the virtual environment
+
+To deactivate the virtual environment, run command
+
+```bash
+deactivate
+```
