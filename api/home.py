@@ -16,6 +16,11 @@ def home():
                     'description': 'Saves the disease detection log of the user'},
                 {'url': '/log/retrieve', 'method': 'POST',
                     'description': 'Retrieves the disease detection log of the user'},
-            ]
+            ],
+            'Response Format': {
+                'status': 'Status Code',
+                'message': 'Message related response',
+                'data': 'Actual data'
+            }
         }
     }, 200
