@@ -6,23 +6,23 @@ from api.features.log.save import save
 from api.features.validate import validate
 from api.features.detect import detect
 
-from flask import Flask, render_template
+from flask import Flask
 app = Flask(__name__, static_url_path='/static')
 
 app.add_url_rule("/", view_func=home)
-app.add_url_rule("/detect", view_func=detect)
-app.add_url_rule("/validate", view_func=validate)
-app.add_url_rule("/signin", view_func=signin)
-app.add_url_rule("/signup", view_func=signup)
-app.add_url_rule("/log/save", view_func=save)
-app.add_url_rule("/log/retrieve", view_func=retrieve)
+app.add_url_rule("/detect", methods=["POST"], view_func=detect)
+app.add_url_rule("/validate", methods=["POST"], view_func=validate)
+app.add_url_rule("/signin", methods=["POST"], view_func=signin)
+app.add_url_rule("/signup", methods=["POST"], view_func=signup)
+app.add_url_rule("/log/save", methods=["POST"], view_func=save)
+app.add_url_rule("/log/retrieve", methods=["GET"], view_func=retrieve)
 
 
 @app.errorhandler(404)
-def not_found():
+def not_found(e):
     return {'status': 404, 'message': '404 Not Found'}, 404
 
 
 @app.errorhandler(500)
-def not_found():
+def server_error(e):
     return {'status': 500, 'message': 'Internal Server Error'}, 500
