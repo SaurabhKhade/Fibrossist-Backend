@@ -1,6 +1,10 @@
 from Crypto.Cipher import AES
 from base64 import b64encode, b64decode
+from hashlib import sha256
 import os
+
+def hash(text):
+    return sha256(text.encode('utf8')).hexdigest()
 
 def encrypt(text):
     try:
