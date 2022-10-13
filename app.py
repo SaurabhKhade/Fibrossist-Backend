@@ -25,4 +25,5 @@ def not_found(e):
 
 @app.errorhandler(500)
 def server_error(e):
+    print(e)
     return {'status': 500, 'message': 'Internal Server Error'}, 500

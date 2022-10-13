@@ -6,13 +6,21 @@ import json
 def signin():
     try:
         data = request.data
+        # print(len(str(request.remote_addr)))
+        if len(data) == 0:
+            return {"status": 400, "message": "No data provided"}, 400
         data = json.loads(data.decode('utf-8'))
         users = db["users"]
+        if "email" not in data:
+            return {"status": 400, "message": "Email is required"}, 400
+        elif "password" not in data:
+            return {"status": 400, "message": "Password is required"}, 400
+
         user = users.find_one({"email": data["email"]})
         if user:
             password = hash(data["password"])
             if user["password"] == password:
-                return {"status": 200, "message": "Sign in successful", "token": encrypt(str(user["_id"]))}, 200
+                return {"status": 200, "message": "Signed in successfully", "token": encrypt(str(user["_id"]), str(request.remote_addr))}, 200
             else:
                 return {"status": 401, "message": "Incorrect password"}, 401
         else:
