@@ -1,3 +1,5 @@
+# API response structure 
+
 def home():
     return {
         'status': 200,

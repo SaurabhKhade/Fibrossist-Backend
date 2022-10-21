@@ -6,7 +6,8 @@ import json
 def signin():
     try:
         data = request.data
-        # print(len(str(request.remote_addr)))
+
+        # handling invalid data 
         if len(data) == 0:
             return {"status": 400, "message": "No data provided"}, 400
         data = json.loads(data.decode('utf-8'))
@@ -16,6 +17,7 @@ def signin():
         elif "password" not in data:
             return {"status": 400, "message": "Password is required"}, 400
 
+        # if user exists verify password, if not convey so 
         user = users.find_one({"email": data["email"]})
         if user:
             password = hash(data["password"])

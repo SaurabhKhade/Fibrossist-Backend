@@ -3,13 +3,16 @@ from base64 import b64encode, b64decode
 from hashlib import sha256
 import os
 
+# hashing 
 def hash(text):
     return sha256(text.encode('utf8')).hexdigest()
 
+# generate a unique key per user using his ip address 
 def gen_key(ip):
     key = ip + os.environ.get("SECRET_KEY")[len(ip):]
     return key
 
+# encrypting the text 
 def encrypt(text, ip):
     try:
         aes_obj = AES.new(gen_key(ip).encode('utf-8'), AES.MODE_CFB, os.environ.get("SALT").encode('utf8'))
@@ -24,6 +27,7 @@ def encrypt(text, ip):
         else:
             raise ValueError(value_error)
 
+# decrypting the text 
 def decrypt(text, ip):
     try:
         aes_obj = AES.new(gen_key(ip).encode('utf8'), AES.MODE_CFB, os.environ.get("SALT").encode('utf8'))
