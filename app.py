@@ -3,7 +3,7 @@ from api.auth.signup import signup
 from api.auth.signin import signin
 from api.features.log.retrieve import retrieve
 from api.features.log.save import save
-from api.features.validate import validate
+# from api.features.validate import validate
 from api.features.detect import detect
 
 from flask import Flask
@@ -12,7 +12,7 @@ app = Flask(__name__, static_url_path='/static')
 # defining routes 
 app.add_url_rule("/", view_func=home)
 app.add_url_rule("/detect", methods=["POST"], view_func=detect)
-app.add_url_rule("/validate", methods=["POST"], view_func=validate)
+# app.add_url_rule("/validate", methods=["POST"], view_func=validate)
 app.add_url_rule("/signin", methods=["POST"], view_func=signin)
 app.add_url_rule("/signup", methods=["POST"], view_func=signup)
 app.add_url_rule("/log/save", methods=["POST"], view_func=save)
