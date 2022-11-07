@@ -1,16 +1,22 @@
 from flask import request
-from models.providers.validate import validate
+from models.providers.validateXRay import validateXRay
+from models.providers.detectFibrosis import detectFibrosis
 import os
 
 def detect():
     if "image" not in request.files:
         return {'status': 400, 'message': 'No image found'}, 400
     file = request.files['image']
-    path = os.path.join('uploads', file.filename)
-    file.save(path)
-    result = validate(path)
-    os.remove(path)
-    if(result):
-        return {'status': 200, 'message': 'Valid X-Ray image'}, 200
+    dir_path = 'uploads/for_detection'
+    img_path = 'uploads/for_detection/class_folder/img_file.{}'.format(file.filename.split('.')[-1])
+    file.save(img_path)
+    # print(img_path)
+    isValid = validateXRay(img_path)
+    if not isValid:
+        return {'status': 400, 'message': 'The provided X-Ray image appears to be invalid!'}, 400
+    hasFibrosis = detectFibrosis(dir_path)
+    os.remove(img_path)
+    if(hasFibrosis):
+        return {'status': 200, 'message': 'Success', 'data': 'We think you might have fibrosis, please talk with your doctor immediately'}, 200
     else:
-        return {'status': 400, 'message': 'Invalid X-Ray image'}, 400
+        return {'status': 200, 'message': 'Success', 'data': 'No Fibrosis Detected'}, 200

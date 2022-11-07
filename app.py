@@ -5,6 +5,7 @@ from api.features.log.retrieve import retrieve
 from api.features.log.save import save
 # from api.features.validate import validate
 from api.features.detect import detect
+# from models.providers.functions.ResNet34 import Resnet34 as ResNet34
 
 from flask import Flask
 app = Flask(__name__, static_url_path='/static')
@@ -28,3 +29,6 @@ def not_found(e):
 def server_error(e):
     print(e)
     return {'status': 500, 'message': 'Internal Server Error'}, 500
+
+# app.config['Resnet34'] = ResNet34
+# print("Log ==>",app.config)
