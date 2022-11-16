@@ -2,7 +2,9 @@ include/
 lib/
 Scripts/ 
 __pycache__/  
-venv/
 pyvenv.cfg
 .env
 test.py
+venv/
+Test\ Images/
+.git/
