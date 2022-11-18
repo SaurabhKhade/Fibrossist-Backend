@@ -4,6 +4,12 @@ from flask import request, abort
 import json
 
 def signin():
+    if request.method == 'GET':
+        return {"status": 400, "message": "Expected request structure", 
+                "data": {
+                    "email": "string",
+                    "password": "string"
+                }}, 400
     try:
         data = request.data
 
@@ -11,7 +17,7 @@ def signin():
         if len(data) == 0:
             return {"status": 400, "message": "No data provided"}, 400
         data = json.loads(data.decode('utf-8'))
-        users = db["users"]
+        users = db["auth"]
         if "email" not in data:
             return {"status": 400, "message": "Email is required"}, 400
         elif "password" not in data:

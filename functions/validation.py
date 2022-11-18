@@ -43,8 +43,18 @@ def invalid_signup(data):
         return "Surname is required"
     elif not valid_name(data["surname"]):
         return "Invalid Surname"
+    elif "age" not in data:
+        return "Age is required"
+    elif "gender" not in data:
+        return "Gender is required"
+    elif data["gender"] not in ["M","F","O"]:
+        return "Gender must be one of 'M' for male, 'F' for female or 'O' for other"
     else:
-        return False
+        try:
+            int(data["age"])
+            return False
+        except:
+            return "Age must be a number"
 
 # def invalid_signin(data):
 #     if "email" not in data:

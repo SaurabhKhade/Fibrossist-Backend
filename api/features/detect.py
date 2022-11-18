@@ -7,14 +7,13 @@ def detect():
     if "image" not in request.files:
         return {'status': 400, 'message': 'No image found'}, 400
     file = request.files['image']
-    dir_path = 'uploads/for_detection'
-    img_path = 'uploads/for_detection/class_folder/img_file.{}'.format(file.filename.split('.')[-1])
+    img_path = 'uploads/img_file_for_detection.{}'.format(file.filename.split('.')[-1])
     file.save(img_path)
     # print(img_path)
     isValid = validateXRay(img_path)
     if not isValid:
         return {'status': 400, 'message': 'The provided X-Ray image appears to be invalid!'}, 400
-    hasFibrosis = detectFibrosis(dir_path)
+    hasFibrosis = detectFibrosis(img_path)
     os.remove(img_path)
     if(hasFibrosis):
         return {'status': 200, 'message': 'Success', 'data': 'We think you might have fibrosis, please talk with your doctor immediately'}, 200

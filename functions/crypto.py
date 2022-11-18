@@ -7,15 +7,17 @@ import os
 def hash(text):
     return sha256(text.encode('utf8')).hexdigest()
 
-# generate a unique key per user using his ip address 
+# generate a unique key per user using his ip address
+# 
+# Add Secret Key from env here !!! 
 def gen_key(ip):
-    key = ip + os.environ.get("SECRET_KEY")[len(ip):]
+    key = ip + "hufh389389hufhi87wbcyab936fjsbc7"[len(ip):]
     return key
 
 # encrypting the text 
 def encrypt(text, ip):
     try:
-        aes_obj = AES.new(gen_key(ip).encode('utf-8'), AES.MODE_CFB, os.environ.get("SALT").encode('utf8'))
+        aes_obj = AES.new(gen_key(ip).encode('utf-8'), AES.MODE_CFB, "hufh389389hufhi8".encode('utf8'))
         hx_enc = aes_obj.encrypt(text.encode('utf8'))
         mret = b64encode(hx_enc).decode('utf8')
         return mret

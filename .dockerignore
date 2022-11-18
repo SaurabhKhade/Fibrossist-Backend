@@ -1,9 +1,5 @@
-include/
-lib/
-Scripts/ 
 __pycache__/  
 pyvenv.cfg
-.env
 test.py
 venv/
 Test\ Images/
