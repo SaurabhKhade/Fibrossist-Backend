@@ -6,5 +6,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install gunicorn
 COPY . .
 # RUN export FLASK_APP=app.py
+RUN chmod +x ./entrypoint.sh
 EXPOSE 5000
-CMD gunicorn--bind 0.0.0.0:5000 -w 3 app:app
+ENTRYPOINT ["sh", "entrypoint.sh"]
