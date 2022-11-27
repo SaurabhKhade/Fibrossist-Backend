@@ -6,6 +6,13 @@ from api.features.log.save import save
 # from api.features.validate import validate
 from api.features.detect import detect
 # from models.providers.functions.ResNet34 import Resnet34 as ResNet34
+from api.auth.verify import verify
+
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 from flask import Flask
 app = Flask(__name__, static_url_path='/static')
@@ -16,6 +23,7 @@ app.add_url_rule("/detect", methods=["POST"], view_func=detect)
 # app.add_url_rule("/validate", methods=["POST"], view_func=validate)
 app.add_url_rule("/signin", methods=["GET","POST"], view_func=signin)
 app.add_url_rule("/signup", methods=["GET","POST"], view_func=signup)
+app.add_url_rule("/verify/<path:creds>", methods=["GET"], view_func=verify)
 app.add_url_rule("/log/save", methods=["POST"], view_func=save)
 app.add_url_rule("/log/retrieve", methods=["GET"], view_func=retrieve)
 

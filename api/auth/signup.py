@@ -1,8 +1,16 @@
+from datetime import datetime
+import random
+import smtplib
 from flask import request, abort
-from functions.crypto import encrypt, hash
 from functions.validation import invalid_signup
 from database.db import db
 import json
+from functions.otp_mail import mail
+import os
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 
 def signup():
     if request.method == 'GET':
@@ -34,15 +42,36 @@ def signup():
         if user:
             return {"status": 409, "message": "User with this email already exists"}, 409
         else:
-            
-            password = hash(data["password"])
-            user = users.insert_one({"email": data["email"], "password": password})
-            details = users = db["users"]
-            details.insert_one({ "_id": user.inserted_id, "name": data["name"], 
-                                "surname": data["surname"], "age": data["age"], 
-                                "email": data["email"], "gender": data["gender"]})
-            return {"status": 200, "message": "Sign up successful", "token": encrypt(str(user.inserted_id),str(request.remote_addr))}, 200
+            send_otp(data)
+            return {"status": 200, "message": "Please verify your email to continue."}, 200
     
     except Exception as e:
         print(e)
         abort(500)
+
+def send_otp(data):
+    otp = db["otp"]
+    random_otp = random.randint(100000, 999999)
+    otp.insert_one({"email": data["email"], "otp": random_otp, "createdAt": datetime.utcnow(), "data": json.dumps(data)})
+    try:
+        # smtp = smtplib.SMTP('send.smtp.mailtrap.io', 587)
+        smtp = smtplib.SMTP('smtp.gmail.com', 587)
+        smtp.starttls()
+        # smtp.login("api", "b2d9d201511ed5c45dd7bdf0e22da8f7")
+        sender = os.environ.get("MAIL_USER")
+        receiver = data["email"]
+        password = os.environ.get("MAIL_PASS")
+        smtp.login(sender, password)
+
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = "Verify your email to start using Fibrossist"
+        msg['From'] = os.environ.get("MAIL_USER")
+        msg['To'] = receiver
+
+        body = MIMEText(mail(data,random_otp,os.environ.get("HOST")), 'html')
+        msg.attach(body)
+
+        smtp.sendmail(sender, receiver, msg.as_string())
+        smtp.quit()
+    except Exception as e:
+        print(e)

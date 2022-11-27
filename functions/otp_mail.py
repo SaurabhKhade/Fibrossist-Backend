@@ -1,4 +1,9 @@
-def mail(data,otp):
+from functions.crypto import encrypt
+import json
+
+def mail(data,otp,host):
+  
+    credentials = encrypt(json.dumps({"email": data["email"], "otp": otp}),'')
     return f'''\
 <!DOCTYPE html>
 <html lang="en">
@@ -37,8 +42,9 @@ def mail(data,otp):
           minutes only.
         </p>
         <a
-          href="fibrossit.com/verify-account?otp={otp}"
+          href="{host}/verify/{credentials}"
           style="text-decoration: none"
+          method="GET"
         >
           <h2
             style="

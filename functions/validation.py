@@ -55,11 +55,3 @@ def invalid_signup(data):
             return False
         except:
             return "Age must be a number"
-
-# def invalid_signin(data):
-#     if "email" not in data:
-#         return "Email is required"
-#     elif "password" not in data:
-#         return "Password is required"
-#     else:
-#         return False
