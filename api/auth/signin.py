@@ -33,5 +33,6 @@ def signin():
                 return {"status": 401, "message": "Incorrect password"}, 401
         else:
             return {"status": 404, "message": "User not found"}, 404
-    except:
+    except Exception as e:
+        print(e)
         abort(500)

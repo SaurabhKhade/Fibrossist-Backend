@@ -7,5 +7,4 @@ RUN pip install gunicorn
 COPY . .
 # RUN export FLASK_APP=app.py
 RUN chmod +x ./entrypoint.sh
-EXPOSE 5000
 ENTRYPOINT ["sh", "entrypoint.sh"]

@@ -53,25 +53,23 @@ def send_otp(data):
     otp = db["otp"]
     random_otp = random.randint(100000, 999999)
     otp.insert_one({"email": data["email"], "otp": random_otp, "createdAt": datetime.utcnow(), "data": json.dumps(data)})
-    try:
-        # smtp = smtplib.SMTP('send.smtp.mailtrap.io', 587)
-        smtp = smtplib.SMTP('smtp.gmail.com', 587)
-        smtp.starttls()
-        # smtp.login("api", "b2d9d201511ed5c45dd7bdf0e22da8f7")
-        sender = os.environ.get("MAIL_USER")
-        receiver = data["email"]
-        password = os.environ.get("MAIL_PASS")
-        smtp.login(sender, password)
+    
+    # smtp = smtplib.SMTP('send.smtp.mailtrap.io', 587)
+    smtp = smtplib.SMTP('smtp.gmail.com', 587)
+    smtp.starttls()
+    # smtp.login("api", "b2d9d201511ed5c45dd7bdf0e22da8f7")
+    sender = os.environ.get("MAIL_USER")
+    receiver = data["email"]
+    password = os.environ.get("MAIL_PASS")
+    smtp.login(sender, password)
 
-        msg = MIMEMultipart('alternative')
-        msg['Subject'] = "Verify your email to start using Fibrossist"
-        msg['From'] = os.environ.get("MAIL_USER")
-        msg['To'] = receiver
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = "Verify your email to start using Fibrossist"
+    msg['From'] = os.environ.get("MAIL_USER")
+    msg['To'] = receiver
 
-        body = MIMEText(mail(data,random_otp,os.environ.get("HOST")), 'html')
-        msg.attach(body)
+    body = MIMEText(mail(data,random_otp,os.environ.get("HOST")), 'html')
+    msg.attach(body)
 
-        smtp.sendmail(sender, receiver, msg.as_string())
-        smtp.quit()
-    except Exception as e:
-        print(e)
+    smtp.sendmail(sender, receiver, msg.as_string())
+    smtp.quit()

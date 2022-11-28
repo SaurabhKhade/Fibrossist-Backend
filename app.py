@@ -8,12 +8,6 @@ from api.features.detect import detect
 # from models.providers.functions.ResNet34 import Resnet34 as ResNet34
 from api.auth.verify import verify
 
-from os.path import join, dirname
-from dotenv import load_dotenv
-
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
-
 from flask import Flask
 app = Flask(__name__, static_url_path='/static')
 
