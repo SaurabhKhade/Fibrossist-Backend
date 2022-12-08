@@ -13,20 +13,23 @@ from email.mime.text import MIMEText
 
 
 def signup():
-    if request.method == 'GET':
-        return {"status": 400, "message": "Expected request structure", 
-                "data": {
-                    "email": "string",
-                    "password": "string",
-                    "name": "string",
-                    "surname": "string",
-                    "age": "number",
-                    "gender": "string (M, F or O)"
-                }}, 400
+
     try:
+        if request.method == 'OPTIONS':
+            return {"status": 200, "message": "OK"}, 200
+        if request.method == 'GET':
+            return {"status": 200, "message": "Expected request structure",
+                    "data": {
+                        "email": "string",
+                        "password": "string",
+                        "name": "string",
+                        "surname": "string",
+                        "age": "number",
+                        "gender": "string (M, F or O)"
+                    }}, 200
         data = request.data
-        
-        # handling invalid data 
+
+        # handling invalid data
         if len(data) == 0:
             return {"status": 400, "message": "No data provided"}, 400
 
@@ -44,16 +47,20 @@ def signup():
         else:
             send_otp(data)
             return {"status": 200, "message": "Please verify your email to continue."}, 200
-    
+
     except Exception as e:
-        print(e)
+        print("\n\n", str(e), "\n\n")
+        if ("duplicate key error" in str(e) and "FibrossistCluster.otp" in str(e)):
+            return {"status": 200, "message": "OTP sent already. Please verify your email."}, 200
         abort(500)
+
 
 def send_otp(data):
     otp = db["otp"]
     random_otp = random.randint(100000, 999999)
-    otp.insert_one({"email": data["email"], "otp": random_otp, "createdAt": datetime.utcnow(), "data": json.dumps(data)})
-    
+    otp.insert_one({"email": data["email"], "otp": random_otp,
+                   "createdAt": datetime.utcnow(), "data": json.dumps(data)})
+
     # smtp = smtplib.SMTP('send.smtp.mailtrap.io', 587)
     smtp = smtplib.SMTP('smtp.gmail.com', 587)
     smtp.starttls()
@@ -68,7 +75,7 @@ def send_otp(data):
     msg['From'] = os.environ.get("MAIL_USER")
     msg['To'] = receiver
 
-    body = MIMEText(mail(data,random_otp,os.environ.get("HOST")), 'html')
+    body = MIMEText(mail(data, random_otp, os.environ.get("HOST")), 'html')
     msg.attach(body)
 
     smtp.sendmail(sender, receiver, msg.as_string())

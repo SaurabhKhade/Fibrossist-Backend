@@ -3,17 +3,21 @@ from database.db import db
 from flask import request, abort
 import json
 
+
 def signin():
-    if request.method == 'GET':
-        return {"status": 400, "message": "Expected request structure", 
-                "data": {
-                    "email": "string",
-                    "password": "string"
-                }}, 400
     try:
+        if request.method == 'OPTIONS':
+            return {"status": 200, "message": "OK"}, 200
+        if request.method == 'GET':
+            return {"status": 200, "message": "Expected request structure",
+                    "data": {
+                        "email": "string",
+                        "password": "string"
+                    }}, 200
+
         data = request.data
 
-        # handling invalid data 
+        # handling invalid data
         if len(data) == 0:
             return {"status": 400, "message": "No data provided"}, 400
         data = json.loads(data.decode('utf-8'))
@@ -23,7 +27,7 @@ def signin():
         elif "password" not in data:
             return {"status": 400, "message": "Password is required"}, 400
 
-        # if user exists verify password, if not convey so 
+        # if user exists verify password, if not convey so
         user = users.find_one({"email": data["email"]})
         if user:
             password = hash(data["password"])

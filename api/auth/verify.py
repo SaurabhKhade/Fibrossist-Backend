@@ -1,9 +1,11 @@
-from flask import abort
+from flask import abort, request
 from functions.crypto import decrypt,hash
 from database.db import db
 import json
 
 def verify(creds):
+    if request.method == 'OPTIONS':
+        return {"status": 200, "message": "OK"}, 200
     try:
         data = json.loads(decrypt(creds,''))
         otp = db["otp"]

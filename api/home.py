@@ -1,6 +1,9 @@
-# API response structure 
+from flask import request
+
 
 def home():
+    if request.method == 'OPTIONS':
+        return {"status": 200, "message": "OK"}, 200
     return {
         'status': 200,
         'message': 'Welcome to the API',
