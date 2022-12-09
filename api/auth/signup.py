@@ -5,7 +5,7 @@ from flask import request, abort
 from functions.validation import invalid_signup
 from database.db import db
 import json
-from functions.otp_mail import mail
+from functions.otp_mail import verify_mail as mail
 import os
 
 from email.mime.multipart import MIMEMultipart

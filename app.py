@@ -7,6 +7,7 @@ from api.features.log.save import save
 from api.features.detect import detect
 # from models.providers.functions.ResNet34 import Resnet34 as ResNet34
 from api.auth.verify import verify
+from api.auth.recover import send_otp, verify_otp
 
 from flask import Flask
 from flask_cors import CORS
@@ -20,6 +21,8 @@ app.add_url_rule("/detect", methods=["POST"], view_func=detect)
 # app.add_url_rule("/validate", methods=["POST"], view_func=validate)
 app.add_url_rule("/signin", methods=["GET", "POST"], view_func=signin)
 app.add_url_rule("/signup", methods=["GET", "POST"], view_func=signup)
+app.add_url_rule("/recover/send_otp", methods=["POST"], view_func=send_otp)
+app.add_url_rule("/recover/verify_otp", methods=["POST"], view_func=verify_otp)
 app.add_url_rule("/verify/<path:creds>", methods=["GET"], view_func=verify)
 app.add_url_rule("/log/save", methods=["POST"], view_func=save)
 app.add_url_rule("/log/retrieve", methods=["GET"], view_func=retrieve)
