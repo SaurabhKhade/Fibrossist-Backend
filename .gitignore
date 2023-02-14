@@ -1,5 +1,5 @@
 __pycache__/  
 Notebooks/
 venv/
-.env
+.env*
 test.py
