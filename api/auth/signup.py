@@ -7,6 +7,7 @@ from database.db import db
 import json
 from functions.otp_mail import verify_mail as mail
 import os
+from functions.crypto import hash
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -57,6 +58,8 @@ def signup():
 
 def send_otp(data):
     otp = db["otp"]
+    data['password'] = hash(data['password'])
+    del data['confirmPassword']
     random_otp = random.randint(100000, 999999)
     otp.insert_one({"email": data["email"], "otp": random_otp,
                    "createdAt": datetime.utcnow(), "data": json.dumps(data)})

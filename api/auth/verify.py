@@ -1,13 +1,14 @@
 from flask import abort, request
-from functions.crypto import decrypt,hash
+from functions.crypto import decrypt, hash
 from database.db import db
 import json
+
 
 def verify(creds):
     if request.method == 'OPTIONS':
         return {"status": 200, "message": "OK"}, 200
     try:
-        data = json.loads(decrypt(creds,''))
+        data = json.loads(decrypt(creds, ''))
         otp = db["otp"]
         saved_otp = otp.find_one({"email": data["email"]})
         if saved_otp:
@@ -15,10 +16,10 @@ def verify(creds):
                 users = db["auth"]
                 details = db["users"]
                 saved_data = json.loads(saved_otp["data"])
-                password = hash(saved_data["password"])
-                user = users.insert_one({"email": saved_data["email"], "password": password})
-                details.insert_one({ "_id": user.inserted_id, "name": saved_data["name"], 
-                                    "surname": saved_data["surname"], "age": saved_data["age"], 
+                user = users.insert_one(
+                    {"email": saved_data["email"], "password": saved_data["password"]})
+                details.insert_one({"_id": user.inserted_id, "name": saved_data["name"],
+                                    "surname": saved_data["surname"], "age": saved_data["age"],
                                     "email": saved_data["email"], "gender": saved_data["gender"]})
                 otp.delete_one({"email": data["email"]})
                 return {"status": 200, "message": "Email verified successfully."}, 200
