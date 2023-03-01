@@ -25,7 +25,7 @@ def signup():
                         "password": "string",
                         "name": "string",
                         "surname": "string",
-                        "age": "number",
+                        "birtDate": "Birth Date (DD-MM-YYYY)",
                         "gender": "string (M, F or O)"
                     }}, 200
         data = request.data
@@ -37,8 +37,9 @@ def signup():
         data = json.loads(data.decode('utf-8'))
         users = db["auth"]
 
-        if invalid_signup(data):
-            return {"status": 400, "message": invalid_signup(data)}, 400
+        reason, is_invalid = invalid_signup(data)
+        if is_invalid:
+            return {"status": 400, "message": reason}, 400
 
         # if user already exists, convey so, if not create user
         user = users.find_one({"email": data["email"]})

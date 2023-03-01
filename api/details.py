@@ -3,6 +3,7 @@ from bson import ObjectId
 from database.db import db
 from functions.crypto import decrypt, hash
 from os import path
+import datetime
 
 
 def details():
@@ -21,6 +22,9 @@ def details():
             {'_id': ObjectId(id)}, {"_id": 0})
         if not user:
             return {"status": 404, "message": "User not found"}, 404
+
+        user['age'] = (datetime.datetime.now(
+        )-datetime.datetime.strptime(user['birthDate'], '%d-%m-%Y')).days//365
 
         stats = db["stats"]
         stat = stats.find_one(

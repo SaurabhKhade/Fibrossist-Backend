@@ -19,7 +19,7 @@ def verify(creds):
                 user = users.insert_one(
                     {"email": saved_data["email"], "password": saved_data["password"]})
                 details.insert_one({"_id": user.inserted_id, "name": saved_data["name"],
-                                    "surname": saved_data["surname"], "age": saved_data["age"],
+                                    "surname": saved_data["surname"], "birthDate": saved_data["birthDate"],
                                     "email": saved_data["email"], "gender": saved_data["gender"]})
                 otp.delete_one({"email": data["email"]})
                 return {"status": 200, "message": "Email verified successfully."}, 200
