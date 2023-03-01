@@ -1,5 +1,5 @@
 from flask import request
-from bson.objectid import ObjectId
+from bson import ObjectId
 from database.db import db
 from functions.crypto import decrypt, hash
 from os import path
@@ -10,23 +10,21 @@ def details():
         if request.method == 'OPTIONS':
             return {"status": 200, "message": "OK"}, 200
 
-        # print(request.headers)
-
-        id = decrypt(request.headers.get('token'), str(request.remote_addr))
+        id = request.headers.get('token')
         if not id:
             return {"status": 400, "message": "id not provided"}, 400
-        # print(ObjectId(id))
-        id = ObjectId(id)
-        # print(id)
-        # print(type(id))
+
+        id = decrypt(id, str(request.remote_addr))
 
         users = db["users"]
-        user = users.find_one(id)
+        user = users.find_one(
+            {'_id': ObjectId(id)}, {"_id": 0})
         if not user:
             return {"status": 404, "message": "User not found"}, 404
 
         stats = db["stats"]
-        stat = stats.find_one(id)
+        stat = stats.find_one(
+            {'_id': ObjectId(id)}, {"_id": 0})
         if not stat:
             stat = {
                 "negative": 0,
@@ -48,8 +46,6 @@ def details():
             "stats": stat,
             "profile": profile
         }
-
         return data, 200
     except Exception as e:
-        print(e)
-        return {"status": 500, "message": "Internal server error"}, 500
+        return {"status": 500, "message": "Internal Server Error"}, 500
