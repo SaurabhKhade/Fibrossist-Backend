@@ -29,6 +29,7 @@ def details():
         stats = db["stats"]
         stat = stats.find_one(
             {'_id': ObjectId(id)}, {"_id": 0})
+        print(stat)
         if not stat:
             stat = {
                 "negative": 0,

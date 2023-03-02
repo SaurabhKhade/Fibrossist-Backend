@@ -1,2 +1,0 @@
-def retrieve():
-    return "Retrieve"
