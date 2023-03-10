@@ -9,6 +9,9 @@ import time
 
 
 def detect():
+    if request.method == 'OPTIONS':
+        return {'status': 200, 'message': 'Success'}, 200
+
     id = request.headers.get('token')
     if not id:
         return {"status": 400, "message": "id not provided"}, 400

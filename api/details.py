@@ -16,6 +16,7 @@ def details():
             return {"status": 400, "message": "id not provided"}, 400
 
         id = decrypt(id, str(request.remote_addr))
+        print(id)
 
         users = db["users"]
         user = users.find_one(
@@ -36,10 +37,10 @@ def details():
                 "positive": 0,
             }
 
-        if path.exists(f"static/profile/{hash(id)}/profile.jpg"):
+        if path.exists(f"static/users/{hash(id)}/profile/profile.png"):
             profile = {
                 "exists": True,
-                "path": f"static/profile/{hash(id)}/profile.jpg"
+                "path": f"static/users/{hash(id)}/profile/profile.png"
             }
         else:
             profile = {
