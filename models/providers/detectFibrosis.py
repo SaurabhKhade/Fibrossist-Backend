@@ -3,12 +3,14 @@ from .functions.load_image import load_image_as_tensor
 from .functions.Googlenet import googlenet
 from .functions.preprocess import preprocess
 import sys
+import os
 import torch
 # import tensorflow as tf
 
 
 def detectFibrosis(img_path):
     img = load_image_as_tensor(img_path)
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
     if not hasattr(sys.modules['__main__'], 'googlenet'):
         sys.modules['__main__'].googlenet = googlenet
     model = torch.load('models/savedModels/detection/googlenet.pt',
