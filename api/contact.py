@@ -23,4 +23,5 @@ def contact():
         return "OK", 200
 
     except Exception as e:
+        print(e)
         return {"status": 500, "message": "Internal Server Error"}, 500

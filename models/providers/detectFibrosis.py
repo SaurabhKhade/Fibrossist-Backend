@@ -21,9 +21,9 @@ def detectFibrosis(img_path):
 
 
 def predict(model, img):
-    print(type(img))
+    # print(type(img))
     img = preprocess(img)
     yb = model(img)
     _, preds = torch.max(yb, dim=1)
-    print(yb, preds, torch.max(yb, dim=1))
+    # print(yb, preds, torch.max(yb, dim=1))
     return preds[0].item() == 0

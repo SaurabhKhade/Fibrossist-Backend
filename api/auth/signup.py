@@ -51,7 +51,7 @@ def signup():
             return {"status": 200, "message": "Please verify your email to continue."}, 200
 
     except Exception as e:
-        print("\n\n", str(e), "\n\n")
+        print(e)
         if ("duplicate key error" in str(e) and "FibrossistCluster.otp" in str(e)):
             return {"status": 200, "message": "OTP sent already. Please verify your email."}, 200
         abort(500)

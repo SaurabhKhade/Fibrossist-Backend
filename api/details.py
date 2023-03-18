@@ -16,7 +16,7 @@ def details():
             return {"status": 400, "message": "id not provided"}, 400
 
         id = decrypt(id, str(request.remote_addr))
-        print(id)
+        # print(id)
 
         users = db["users"]
         user = users.find_one(
@@ -30,7 +30,7 @@ def details():
         stats = db["stats"]
         stat = stats.find_one(
             {'_id': ObjectId(id)}, {"_id": 0})
-        print(stat)
+        # print(stat)
         if not stat:
             stat = {
                 "negative": 0,
@@ -54,4 +54,5 @@ def details():
         }
         return data, 200
     except Exception as e:
+        print(e)
         return {"status": 500, "message": "Internal Server Error"}, 500

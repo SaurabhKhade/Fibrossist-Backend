@@ -18,7 +18,7 @@ def returnAll():
     if not token:
         return {"status": 400, "message": "Token not provided"}, 400
     id = decrypt(token, str(request.remote_addr))
-    print(id)
+    # print(id)
     items = db['history'].find({'user_id': id}, {"_id": 0})
     return sorted(list(items), key=sort_key, reverse=True)
 
