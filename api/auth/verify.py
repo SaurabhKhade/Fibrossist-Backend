@@ -1,5 +1,5 @@
-from flask import abort, request
-from functions.crypto import decrypt, hash
+from flask import abort, request, send_from_directory
+from functions.crypto import decrypt
 from database.db import db
 import json
 
@@ -22,11 +22,11 @@ def verify(creds):
                                     "surname": saved_data["surname"], "birthDate": saved_data["birthDate"],
                                     "email": saved_data["email"], "gender": saved_data["gender"]})
                 otp.delete_one({"email": data["email"]})
-                return {"status": 200, "message": "Email verified successfully."}, 200
+                return send_from_directory('static', 'email_verified.html')
             else:
-                return {"status": 400, "message": "Invalid OTP"}, 400
+                return '<h1 style="text-align: center;margin-top: 100px;">Invalid OTP</h1>', 400
         else:
-            return {"status": 400, "message": "Invalid OTP"}, 400
+            return '<h1 style="text-align: center;margin-top: 100px;">Invalid OTP</h1>', 400
 
     except Exception as e:
         print(e)
