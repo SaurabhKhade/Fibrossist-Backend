@@ -7,3 +7,5 @@ static/*
 .env*
 test.py
 .vercel
+manage.py
+savedModels.zip
