@@ -1,7 +1,7 @@
 from database.db import db
 from bson.objectid import ObjectId
 import datetime
-import os
+# import os
 
 
 def save_history(id, isNormal, img_path):
@@ -27,5 +27,5 @@ def save_history(id, isNormal, img_path):
     )-datetime.datetime.strptime(user['birthDate'], '%d-%m-%Y')).days//365
 
     history = db.history.insert_one({'user_id': id, 'isNormal': isNormal, 'date': datetime.date.today().strftime('%d-%m-%Y'),
-                                    "time": datetime.datetime.now().time().strftime('%H:%M:%S'), 'age': age, 'img_path': os.path.join(os.environ.get('HOST'), img_path)})
+                                    "time": datetime.datetime.now().time().strftime('%H:%M:%S'), 'age': age, 'img_path': img_path})
     return str(history.inserted_id)
